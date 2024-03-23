@@ -32,8 +32,26 @@ In the 'Contracts' folder, you'll find a single file with a '.sol' extension. Th
 │           prmerged.yaml
 │
 ├───.husky
-│       commit-msg
-│       pre-commit
+│   │   commit-msg
+│   │   pre-commit
+│   │
+│   └───_
+│           .gitignore
+│           applypatch-msg
+│           commit-msg
+│           h
+│           husky.sh
+│           post-applypatch
+│           post-checkout
+│           post-commit
+│           post-merge
+│           post-rewrite
+│           pre-applypatch
+│           pre-auto-gc
+│           pre-commit
+│           pre-push
+│           pre-rebase
+│           prepare-commit-msg
 │
 └───contract
         Database.sol
