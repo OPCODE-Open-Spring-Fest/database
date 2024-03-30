@@ -23,7 +23,7 @@ contract Database{
 
     function addPerson(string calldata aadharId,string calldata name, string calldata DOB, string calldata phoneNo, uint rollNo, uint batchNo) public 
     {
-        Details memory person = Details({aadharId: aadharId,name: name,DOB: DOB,phoneNo: phoneNo, rollNo: rollNo, batchNo: batchNo});
+        Details storage person = Details({aadharId: aadharId,name: name,DOB: DOB,phoneNo: phoneNo, rollNo: rollNo, batchNo: batchNo});
         list[count]=person;
         count++;
     }
