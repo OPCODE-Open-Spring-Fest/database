@@ -22,7 +22,7 @@ contract Database{
     }
 
     modifier personPresent{
-        require(list[msg.sender].rollNo==0, "User doesn't exist");
+        require(list[msg.sender].rollNo!=0, "User doesn't exist");
         _;
     }
 
