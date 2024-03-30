@@ -8,8 +8,8 @@ contract Database{
         string name;
         string DOB;
         string phoneNo;
-        uint rollNo;
-        uint batchNo;
+        string rollNo;
+        string batchNo;
 
     }
     
@@ -21,9 +21,9 @@ contract Database{
 
     }
 
-    function addPerson(string calldata aadharId,string calldata name, string calldata DOB, string calldata phoneNo, uint rollNo, uint batchNo) public 
+    function addPerson(string memory aadharId,string memory name, string memory DOB, string memory phoneNo, string memory rollNo, string memory batchNo) public 
     {
-        Details storage person = Details({aadharId: aadharId,name: name,DOB: DOB,phoneNo: phoneNo, rollNo: rollNo, batchNo: batchNo});
+        Details memory person = Details({aadharId: aadharId,name: name,DOB: DOB,phoneNo: phoneNo, rollNo: rollNo, batchNo: batchNo});
         list[count]=person;
         count++;
     }
