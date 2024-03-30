@@ -13,7 +13,7 @@ contract Database{
 
     }
     
-    mapping( uint256=> Details) public list;
+    mapping( address => Details) public list;
 
     uint256 public count=0;
     constructor()
@@ -23,8 +23,8 @@ contract Database{
 
     function addPerson(string calldata aadharId,string calldata name, string calldata DOB, string calldata phoneNo, uint rollNo, uint batchNo) public 
     {
-        Details memory person = Details({aadharId: aadharId,name: name,DOB: DOB,phoneNo: phoneNo, rollNo: rollNo, batchNo: batchNo});
-        list[count]=person;
+        Details storage person = Details({aadharId: aadharId,name: name,DOB: DOB,phoneNo: phoneNo, rollNo: rollNo, batchNo: batchNo});
+        list[msg.sender]=person;
         count++;
     }
     
