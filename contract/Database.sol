@@ -21,6 +21,11 @@ contract Database{
 
     }
 
+    modifier personPresent{
+        require(list[msg.sender].rollNo==0, "User doesn't exist");
+        _;
+    }
+
     function addPerson(string calldata aadharId,string calldata name, string calldata DOB, string calldata phoneNo, uint rollNo, uint batchNo) public 
     {
         Details storage person = Details({aadharId: aadharId,name: name,DOB: DOB,phoneNo: phoneNo, rollNo: rollNo, batchNo: batchNo});
@@ -28,7 +33,15 @@ contract Database{
         count++;
     }
     
-
+    function updateDetails(string calldata aadharId,string calldata name, string calldata DOB, string calldata phoneNo, uint rollNo, uint batchNo)public personPresent{
+        Details storage person = list[msg.sender];
+        person.aadharId = aadharId;
+        person.name = name;
+        person.DOB = DOB;
+        person.phoneNo = phoneNo;
+        person.rollNo = rollNo;
+        person.batchNo = batchNo;
+    }
 
 
 
