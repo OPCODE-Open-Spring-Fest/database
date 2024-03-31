@@ -20,6 +20,8 @@ contract Database{
     mapping( uint256=> Details) public list;
     mapping (string => bool) public added;
     uint256 public count=0;
+    address public admin;
+    bool alreadyset=false;
     constructor()
     {
 
@@ -32,6 +34,26 @@ contract Database{
     {
         require(!added[aadhar],"Details already added");
         _;
+    }
+    modifier onlyOnce()
+    {
+        require(!alreadyset,"Admin is already set");
+        _;
+    }
+    modifier onlyAdmin()
+    {
+        require(msg.sender==admin,"Only admin can call this function");
+        _;
+    }
+    function set_Admin( address _admin) public onlyOnce()
+    {
+        admin=_admin;
+        alreadyset=true;
+    }
+    function changeAdmin(address newadmin) public onlyAdmin()
+    {
+        admin=newadmin;
+
     }
     
     function addPerson(string calldata aadharId,string calldata name, string calldata DOB, string calldata phoneNo ) public Added (aadharId)
