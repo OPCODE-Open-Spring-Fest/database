@@ -65,6 +65,7 @@ contract Database{
     
     function addPerson(string memory aadharId,string memory name, string memory DOB, string memory phoneNo, string memory rollNo, string memory batchNo) public 
     {
+        require(bytes(list[msg.sender].aadharId).length == 0, "User already exists");
         Details memory person = Details({aadharId: aadharId,name: name,DOB: DOB,phoneNo: phoneNo, rollNo: rollNo, batchNo: batchNo});
         list[msg.sender]=person;
         added[aadharId] = true;
