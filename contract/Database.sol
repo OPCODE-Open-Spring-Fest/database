@@ -14,11 +14,14 @@ contract Database{
     }
 
         
-}
+
 
     
-    mapping( uint256=> Details) public list;
+
+    mapping( address => Details) public list;
+    
     mapping (string => bool) public added;
+
     uint256 public count=0;
     address public admin;
     bool alreadyset=false;
@@ -28,8 +31,13 @@ contract Database{
     }
 
 
-    function addPerson(string memory aadharId,string memory name, string memory DOB, string memory phoneNo, string memory rollNo, string memory batchNo) public 
+    modifier personPresent{
+        require(keccak256(abi.encodePacked(list[msg.sender].aadharId)) != keccak256(abi.encodePacked("")), "Person doesn't exist");
+        _;
+    }
 
+
+    
     modifier Added (string memory aadhar) 
     {
         require(!added[aadhar],"Details already added");
@@ -56,17 +64,27 @@ contract Database{
 
     }
     
-    function addPerson(string calldata aadharId,string calldata name, string calldata DOB, string calldata phoneNo ) public Added (aadharId)
+    function addPerson(string memory aadharId,string memory name, string memory DOB, string memory phoneNo, string memory rollNo, string memory batchNo) public Added (aadharId)
 
     {
         Details memory person = Details({aadharId: aadharId,name: name,DOB: DOB,phoneNo: phoneNo, rollNo: rollNo, batchNo: batchNo});
-        list[count]=person;
+        list[msg.sender]=person;
         added[aadharId]=true;
+
         count++;
     }
 
     
-
+    function updateDetails(string memory aadharId,string memory name, string memory DOB, string memory phoneNo, string memory rollNo, string memory batchNo)public personPresent{
+        Details storage person = list[msg.sender];
+        person.aadharId = aadharId;
+        person.name = name;
+        person.DOB = DOB;
+        person.phoneNo = phoneNo;
+        person.rollNo = rollNo;
+        person.batchNo = batchNo;
+        added[aadharId]=true;
+    }
 
 
 
