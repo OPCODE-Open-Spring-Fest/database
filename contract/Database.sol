@@ -2,7 +2,6 @@
 pragma solidity >=0.7.0<0.9.0;
 
 contract Database{
-
     struct Details {
         string aadharId;
         string name;
@@ -12,11 +11,11 @@ contract Database{
         string batchNo;
     }
 
-    mapping( address => Details) public list;
-    mapping( string => bool) public added;
+
     mapping( string => Details) private aadharToUser;
- 
-    uint256 public count=0;
+    mapping( address => Details) private list;
+    uint256 private count=0;
+    mapping (string => bool) public added;
     address public admin;
     bool alreadyset=false;
 
@@ -25,14 +24,14 @@ contract Database{
 
     }
 
+
+    modifier personPresent{
+        require(keccak256(abi.encodePacked(list[msg.sender].aadharId)) != keccak256(abi.encodePacked("")), "Person doesn't exist");
+        _;
+    } 
     modifier Added (string memory aadhar) 
     {
         require(!added[aadhar],"Details already added");
-        _;
-    }
-
-    modifier personPresent{
-        require(keccak256(abi.encodePacked(list[msg.sender].aadharId)) != keccak256(abi.encodePacked("")), "User doesn't exist");
         _;
     }
 
@@ -63,13 +62,15 @@ contract Database{
         return msg.sender;
     }
     
-    function addPerson(string memory aadharId,string memory name, string memory DOB, string memory phoneNo, string memory rollNo, string memory batchNo) public 
+
+    function addPerson(string memory aadharId,string memory name, string memory DOB, string memory phoneNo, string memory rollNo, string memory batchNo) public Added (aadharId)
     {
         require(bytes(list[msg.sender].aadharId).length == 0, "User already exists");
         Details memory person = Details({aadharId: aadharId,name: name,DOB: DOB,phoneNo: phoneNo, rollNo: rollNo, batchNo: batchNo});
         list[msg.sender]=person;
         added[aadharId] = true;
         aadharToUser[aadharId] = person;
+        added[aadharId]=true;
         count++;
     }
 
@@ -81,6 +82,8 @@ contract Database{
         person.phoneNo = phoneNo;
         person.rollNo = rollNo;
         person.batchNo = batchNo;
+        added[aadharId]=true;
+
     }
     function checkDetails()public personPresent view returns(string[6] memory){
         Details memory person = list[msg.sender];
