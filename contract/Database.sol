@@ -2,7 +2,6 @@
 pragma solidity >=0.7.0<0.9.0;
 
 contract Database{
-
     struct Details {
         string aadharId;
         string name;
@@ -16,15 +15,20 @@ contract Database{
         
 
 
-    
 
-    mapping( address => Details) public list;
+    mapping( address => Details) private list;
+
+    uint256 private count=0;
+
+
+    
     
     mapping (string => bool) public added;
 
-    uint256 public count=0;
+    
     address public admin;
     bool alreadyset=false;
+
     constructor()
     {
 
@@ -65,7 +69,6 @@ contract Database{
     }
     
     function addPerson(string memory aadharId,string memory name, string memory DOB, string memory phoneNo, string memory rollNo, string memory batchNo) public Added (aadharId)
-
     {
         Details memory person = Details({aadharId: aadharId,name: name,DOB: DOB,phoneNo: phoneNo, rollNo: rollNo, batchNo: batchNo});
         list[msg.sender]=person;
@@ -74,7 +77,7 @@ contract Database{
         count++;
     }
 
-    
+
     function updateDetails(string memory aadharId,string memory name, string memory DOB, string memory phoneNo, string memory rollNo, string memory batchNo)public personPresent{
         Details storage person = list[msg.sender];
         person.aadharId = aadharId;
@@ -85,8 +88,11 @@ contract Database{
         person.batchNo = batchNo;
         added[aadharId]=true;
     }
-
-
-
+    function checkDetails()public personPresent view returns(string[6] memory){
+        Details memory person = list[msg.sender];
+        string[6] memory details = [person.aadharId, person.name, person.DOB, person.phoneNo, person.rollNo, person.batchNo];
+        return details;
+    }
 
 }
+
