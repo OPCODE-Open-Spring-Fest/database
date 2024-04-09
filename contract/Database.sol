@@ -19,13 +19,7 @@ contract Database{
     mapping( address => Details) private list;
 
     uint256 private count=0;
-
-
-    
-    
     mapping (string => bool) public added;
-
-    
     address public admin;
     bool alreadyset=false;
 
@@ -34,14 +28,10 @@ contract Database{
 
     }
 
-
     modifier personPresent{
         require(keccak256(abi.encodePacked(list[msg.sender].aadharId)) != keccak256(abi.encodePacked("")), "Person doesn't exist");
         _;
-    }
-
-
-    
+    } 
     modifier Added (string memory aadhar) 
     {
         require(!added[aadhar],"Details already added");
@@ -93,6 +83,7 @@ contract Database{
         string[6] memory details = [person.aadharId, person.name, person.DOB, person.phoneNo, person.rollNo, person.batchNo];
         return details;
     }
+
 
 }
 
