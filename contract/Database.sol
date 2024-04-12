@@ -80,7 +80,7 @@ contract Database{
         count++;
     }
 
-    function updateDetails(string memory aadharId,string memory name, string memory DOB, string memory phoneNo, string memory rollNo, string memory batchNo)public personPresent{
+    function updateDetails(string memory aadharId,string memory name, string memory DOB, string memory phoneNo, string memory rollNo, string memory batchNo)public personPresent isNotRestricted {
         Details storage person = list[msg.sender];
         person.aadharId = aadharId;
         person.name = name;
