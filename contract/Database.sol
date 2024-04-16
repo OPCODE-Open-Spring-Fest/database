@@ -18,6 +18,7 @@ contract Database{
     mapping( string => bool ) public added;
     mapping( address => bool ) public restrictedUser;
     mapping( string => address ) public aadharToAddress;
+
     address public admin;
     bool alreadyset=false;
 
@@ -25,6 +26,7 @@ contract Database{
     {
 
     }
+
 
 
     modifier personPresent{
@@ -36,6 +38,7 @@ contract Database{
         require(!added[aadhar],"Details already added");
         _;
     }
+
 
     modifier onlyOnce()
     {
@@ -69,6 +72,7 @@ contract Database{
         return msg.sender;
     }
 
+
     function addPerson(string memory aadharId,string memory name, string memory DOB, string memory phoneNo, string memory rollNo, string memory batchNo) public Added (aadharId) isNotRestricted
     {
         require(bytes(list[msg.sender].aadharId).length == 0, "User already exists");
@@ -77,6 +81,7 @@ contract Database{
         added[aadharId] = true;
         aadharToAddress[aadharId] = msg.sender;
         aadharToUser[aadharId] = person;
+        added[aadharId]=true;
         count++;
     }
 
